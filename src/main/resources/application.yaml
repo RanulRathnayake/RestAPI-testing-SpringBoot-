@@ -1,0 +1,8 @@
+
+spring.datasource.url: jdbc:mysql://localhost:3306/cloud_vendor?useSSL=false
+spring.datasource.username: root
+spring.datasource.password: 226226@Rgr
+
+
+#JPA Settings
+spring.jpa.hibernate.ddl-auto: create
