@@ -1,5 +1,7 @@
 package com.ranul.RestAPI.testing.service.impl;
 
+import com.ranul.RestAPI.testing.exception.CloudVendorAllreadyExistException;
+import com.ranul.RestAPI.testing.exception.CloudVendorNotFoundException;
 import com.ranul.RestAPI.testing.model.CloudVendor;
 import com.ranul.RestAPI.testing.repository.CloudVendorRepository;
 import com.ranul.RestAPI.testing.service.CloudVendorService;
@@ -18,6 +20,10 @@ public class CloudVendorServiceImpl implements CloudVendorService {
 
     @Override
     public String createCloudVendor(CloudVendor cloudVendor) {
+        if (cloudVendorRepository.findById(cloudVendor.getVendorID()).isPresent())
+        {
+            throw new CloudVendorAllreadyExistException("User Allready Exist");
+        }
         cloudVendorRepository.save(cloudVendor);
         return "Success";
     }
@@ -30,12 +36,17 @@ public class CloudVendorServiceImpl implements CloudVendorService {
 
     @Override
     public String deleteCloudVendor(String cloudVendorId) {
+        if (cloudVendorRepository.findById(cloudVendorId).isEmpty()) {
+            throw new CloudVendorNotFoundException("Requested Cloud Vendor does not exist");
+        }else
         cloudVendorRepository.deleteById(cloudVendorId);
         return "Success";
     }
 
     @Override
     public CloudVendor getCloudVendor(String cloudVendorId) {
+        if (cloudVendorRepository.findById(cloudVendorId).isEmpty())
+            throw new CloudVendorNotFoundException("Requested Cloud Vendor does not exist");
         return cloudVendorRepository.findById(cloudVendorId).get();
     }
 
