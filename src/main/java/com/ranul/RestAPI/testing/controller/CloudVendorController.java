@@ -3,7 +3,10 @@ package com.ranul.RestAPI.testing.controller;
 
 import com.ranul.RestAPI.testing.model.CloudVendor;
 import com.ranul.RestAPI.testing.repository.CloudVendorRepository;
+import com.ranul.RestAPI.testing.response.ResponseHandler;
 import com.ranul.RestAPI.testing.service.CloudVendorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +22,11 @@ public class CloudVendorController
     }
 
     @GetMapping("{vendorID}")
-    public CloudVendor getCloudVendorDetails(@PathVariable("vendorID") String vendorID)
+    public ResponseEntity<Object> getCloudVendorDetails(@PathVariable("vendorID") String vendorID)
     {
-        return cloudVendorService.getCloudVendor(vendorID);
+        return ResponseHandler.responseBuilder("Requested Vendor detisles sre givrem", HttpStatus.OK, cloudVendorService.getCloudVendor(vendorID));
+
+
 
                 //new CloudVendor("C1","vendor01","Address01","xxxxxx");
     }
